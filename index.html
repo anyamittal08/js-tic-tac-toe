@@ -8,25 +8,31 @@
     <title>Tic-tac-toe</title>
 </head>
 <body>
-    <table class="gameboard">
-        <tbody>
-            <tr class="row">
-                <td><button class="square">0</button></td>
-                <td><button class="square">1</button></td>
-                <td><button class="square">2</button></td>
-            </tr>
-            <tr class="row">
-                <td><button class="square">3</button></td>
-                <td><button class="square">4</button></td>
-                <td><button class="square">5</button></td>
-            </tr>
-            <tr class="row">
-                <td><button class="square">6</button></td>
-                <td><button class="square">7</button></td>
-                <td><button class="square">8</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="game-info">Click on a square to start</div>
+    <div class="game-container">
+        <table class="gameboard">
+            <tbody>
+                <tr class="row">
+                    <td><button class="square" id="0"></button></td>
+                    <td><button class="square" id="1"></button></td>
+                    <td><button class="square" id="2"></button></td>
+                </tr>
+                <tr class="row">
+                    <td><button class="square" id="3"></button></td>
+                    <td><button class="square" id="4"></button></td>
+                    <td><button class="square" id="5"></button></td>
+                </tr>
+                <tr class="row">
+                    <td><button class="square" id="6"></button></td>
+                    <td><button class="square" id="7"></button></td>
+                    <td><button class="square" id="8"></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btn-container">
+        <button class="restart-btn">New Game</button>
+    </div>
 
     <script src="index.js"></script>
 </body>
