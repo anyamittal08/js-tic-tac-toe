@@ -8,15 +8,32 @@ let nextPlayer = 'X';
 let winner = '';
 let end = false;
 
-const playMove = (e) => {
+const playerMove = (e) => {
     let currentIndex = parseInt(e.target.id)
     if (gameboard[currentIndex]) return;
 
     if (!end) {
-    gameboard[currentIndex] = nextPlayer;
-    e.target.innerText = nextPlayer;
-    nextPlayer = nextPlayer === "X" ? "O" : "X";
-    gameInfo.innerText = checkWinner() ? `${winner} wins!` : checkDraw() ? `It's a draw` : `Next Player: ${nextPlayer}`
+    gameboard[currentIndex] = "X";
+    e.target.innerText = "X";
+    nextPlayer = "O";
+    gameInfo.innerText = checkWinner() ? `${winner} wins!` : checkDraw() ? 'It\'s a draw' : 'Next Player: O';
+    }
+    aiMove();
+}
+
+const aiMove = () => {
+    if (!end) {
+        let played = false;
+        while (!played) {
+            let randomValidIndex = Math.floor(Math.random() * gameboard.length);
+            if (!gameboard[randomValidIndex]) {
+                gameboard[randomValidIndex] = 'O';
+                document.getElementById(randomValidIndex).innerText = 'O';
+                nextPlayer = 'X';
+                played = true;
+                gameInfo.innerText = checkWinner() ? `${winner} wins!` : checkDraw() ? 'It\'s a draw' : 'Next Player: X'
+            }
+        } 
     }
 }
 
@@ -49,6 +66,7 @@ const checkDraw = () => {
     gameboard.forEach(square => {
       if (!square) isDraw = false;
     })
+    if (isDraw) end = true;
     return isDraw
 }
 
@@ -62,13 +80,14 @@ const restart = () => {
     gameInfo.innerText = 'Click on a square to start'
 
     squares.forEach(square => {
-        square.innerText = ''
+        square.innerText = '';
+        square.style.color = 'black';
     })
 }
 
 squares.forEach((square) => {
     square.addEventListener('click', e => {
-        playMove(e);
+        playerMove(e);
     })
 })
 
