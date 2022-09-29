@@ -5,7 +5,7 @@ const gameInfo = document.querySelector('.game-info');
 let gameboard = Array(9).fill(null);
 let nextPlayer = 'X';
 
-let end = false;
+let hasGameEnded = false;
 
 const scores = {
     X: 1,
@@ -17,19 +17,19 @@ const playerMove = (e) => {
     let currentIndex = parseInt(e.target.id)
     if (gameboard[currentIndex]) return;
 
-    if (!end) {
+    if (!hasGameEnded) {
     gameboard[currentIndex] = "X";
     e.target.innerText = "X";
     nextPlayer = "O";
     let result = checkWinner();
-    if (result.end) end = true;
+    if (result.end) hasGameEnded = true;
     gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : 'Next Player: O';
     }
     setTimeout(aiMove, 400);
 }
 
 const aiMove = () => {
-    if (!end) {
+    if (!hasGameEnded) {
         let bestScore = Infinity;
         let move;
 
@@ -48,7 +48,7 @@ const aiMove = () => {
         document.getElementById(move).innerText = 'O';
         nextPlayer = 'X';
         let result = checkWinner();
-        if (result.end) end = true;
+        if (result.end) hasGameEnded = true;
         gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : 'Next Player: X';
     }
 }
