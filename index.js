@@ -4,7 +4,6 @@ const gameInfo = document.querySelector('.game-info');
 
 let gameboard = Array(9).fill(null);
 let nextPlayer = 'X';
-let winningSquares;
 
 let end = false;
 
@@ -24,15 +23,16 @@ const playerMove = (e) => {
     nextPlayer = "O";
     let result = checkWinner();
     if (result.end) end = true;
-    gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a draw' : 'Next Player: O';
+    gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : 'Next Player: O';
     }
-    aiMove();
+    setTimeout(aiMove, 400);
 }
 
 const aiMove = () => {
     if (!end) {
         let bestScore = Infinity;
         let move;
+
         for (let i=0; i<9; i++){
             if (!gameboard[i]) {
                 gameboard[i] = 'O';
@@ -49,7 +49,7 @@ const aiMove = () => {
         nextPlayer = 'X';
         let result = checkWinner();
         if (result.end) end = true;
-        gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a draw' : 'Next Player: X';
+        gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : 'Next Player: X';
     }
 }
 
@@ -64,10 +64,10 @@ const minimax = (board, depth, isMaximizing) => {
     if (isMaximizing) {
         let bestScore = -Infinity;
         for (let i=0; i<9; i++) {
-            if (gameboard[i] === null) {
-                gameboard[i] = 'X';
+            if (board[i] === null) {
+                board[i] = 'X';
                 let score = minimax(board, depth + 1, false);
-                gameboard[i] = null;
+                board[i] = null;
                 bestScore = Math.max(score, bestScore);
             }
         }
@@ -75,10 +75,10 @@ const minimax = (board, depth, isMaximizing) => {
     } else {
         let bestScore = Infinity;
         for (let i=0; i<9; i++) {
-            if (gameboard[i] === null) {
-                gameboard[i] = 'O';
+            if (board[i] === null) {
+                board[i] = 'O';
                 let score = minimax(board, depth + 1, true);
-                gameboard[i] = null;
+                board[i] = null;
                 bestScore = Math.min(score, bestScore);
             }
         }
@@ -144,5 +144,3 @@ squares.forEach((square) => {
 })
 
 document.querySelector('.restart-btn').addEventListener('click', restart);
-
-// tie wins;
