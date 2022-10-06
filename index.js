@@ -30,7 +30,7 @@ const playerMove = (e) => {
     gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : `Next Player: ${nextPlayer}`;
     }
 
-    if (aiMode) setTimeout(aiMove, 400);
+    if (aiMode) setTimeout(aiMove, 200);
 }
 
 const aiMove = () => {
