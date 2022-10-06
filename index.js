@@ -176,3 +176,10 @@ opponentBtns.forEach(btn => {
         document.querySelector('.modal').style.display = 'none';
     })
 })
+
+document.querySelector('.change-opponent').addEventListener('click', () => {
+    document.querySelector('.modal').style.display = 'flex';
+    aiMode = false;
+    hardMode = false;
+    restart();
+})
