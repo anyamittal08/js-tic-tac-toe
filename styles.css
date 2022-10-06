@@ -57,18 +57,28 @@ button {
 }
 
 .modal {
-    position: fixed;
-    top: 30%; 
-    left: 25%;
+    position: fixed; 
     z-index: 1;
-    height: 30vh;
-    width: 50vw;
-    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+}
+  
+.modal-content {
+    margin: auto;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    height: 25%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
-    display: none;
+    border: 1px solid black;
+    border-radius: 8px;
 }
 
 .modal .btn-container {
@@ -76,7 +86,12 @@ button {
     margin-top: 20px;
 }
 
+.modal button {
+    font-size: 15px;
+}
 
-
+.hidden {
+    display: none;
+}
 
 

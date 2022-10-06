@@ -1,6 +1,10 @@
 const squares = document.querySelectorAll('.square');
 const gameInfo = document.querySelector('.game-info');
 
+const opponentBtns = document.querySelectorAll('.opponent-btn');
+
+let aiMode = false;
+let hardMode = false;
 
 let gameboard = Array(9).fill(null);
 let nextPlayer = 'X';
@@ -18,34 +22,47 @@ const playerMove = (e) => {
     if (gameboard[currentIndex]) return;
 
     if (!hasGameEnded) {
-    gameboard[currentIndex] = "X";
-    e.target.innerText = "X";
-    nextPlayer = "O";
+    gameboard[currentIndex] = nextPlayer;
+    e.target.innerText = nextPlayer;
+    nextPlayer = nextPlayer === "X" ? "O" : "X";
     let result = checkWinner();
     if (result.end) hasGameEnded = true;
-    gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : 'Next Player: O';
+    gameInfo.innerText = result.winner ? `${result.winner} wins!` : result.draw ? 'It\'s a tie' : `Next Player: ${nextPlayer}`;
     }
-    setTimeout(aiMove, 400);
+
+    if (aiMode) setTimeout(aiMove, 400);
 }
 
 const aiMove = () => {
     if (!hasGameEnded) {
-        let bestScore = Infinity;
-        let move;
-
-        for (let i=0; i<9; i++){
-            if (!gameboard[i]) {
-                gameboard[i] = 'O';
-                let score = minimax(gameboard, 0, true);
-                gameboard[i] = null;
-                if (score < bestScore) {
-                    bestScore = score;
-                    move = i;
+        if (hardMode) {
+            let bestScore = Infinity;
+            let move;
+    
+            for (let i=0; i<9; i++){
+                if (!gameboard[i]) {
+                    gameboard[i] = 'O';
+                    let score = minimax(gameboard, 0, true);
+                    gameboard[i] = null;
+                    if (score < bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            gameboard[move] = 'O';
+            document.getElementById(move).innerText = 'O';
+        } else {
+            let played = false;
+            while (!played) {
+                let randomValidIndex = Math.floor(Math.random() * gameboard.length);
+                if (!gameboard[randomValidIndex]) {
+                    gameboard[randomValidIndex] = 'O';
+                    document.getElementById(randomValidIndex).innerText = 'O';
+                    played = true;
                 }
             }
         }
-        gameboard[move] = 'O';
-        document.getElementById(move).innerText = 'O';
         nextPlayer = 'X';
         let result = checkWinner();
         if (result.end) hasGameEnded = true;
@@ -127,7 +144,7 @@ const restart = () => {
     nextPlayer = 'X';
 
     winner = '';
-    end = false;
+    hasGameEnded = false;
 
     gameInfo.innerText = 'Click on a square to start'
 
@@ -144,3 +161,18 @@ squares.forEach((square) => {
 })
 
 document.querySelector('.restart-btn').addEventListener('click', restart);
+
+opponentBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        if (e.target.classList.contains('ai')) {
+            aiMode = true;
+            console.log(aiMode);
+        }
+            
+        if (e.target.id === 'hard-mode') {
+            hardMode = true;
+            console.log(hardMode);
+        }
+        document.querySelector('.modal').style.display = 'none';
+    })
+})
