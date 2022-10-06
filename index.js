@@ -15,10 +15,10 @@ const scores = {
     X: 1,
     O: -1,
     tie: 0,
-}
+};
 
 const playerMove = (e) => {
-    let currentIndex = parseInt(e.target.id)
+    let currentIndex = parseInt(e.target.id);
     if (gameboard[currentIndex]) return;
 
     if (!hasGameEnded) {
@@ -164,15 +164,9 @@ document.querySelector('.restart-btn').addEventListener('click', restart);
 
 opponentBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
-        if (e.target.classList.contains('ai')) {
-            aiMode = true;
-            console.log(aiMode);
-        }
+        if (e.target.classList.contains('ai')) aiMode = true;
             
-        if (e.target.id === 'hard-mode') {
-            hardMode = true;
-            console.log(hardMode);
-        }
+        if (e.target.id === 'hard-mode') hardMode = true;
         document.querySelector('.modal').style.display = 'none';
     })
 })
